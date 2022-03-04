@@ -27,61 +27,54 @@ import com.generation.blogpessoal.repository.TemaRepository;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class PostagemController {
 
-	
 	@Autowired
 	private PostagemRepository postagemRepository;
-	
+
 	@Autowired
 	private TemaRepository temaRepository;
-	
+
 	@GetMapping
 	public ResponseEntity<List<Postagem>> getAll() {
 		return ResponseEntity.ok(postagemRepository.findAll());
 	}
-	
+
 	@GetMapping("/{id}")
 	public ResponseEntity<Postagem> getById(@PathVariable Long id) {
-		return postagemRepository.findById(id)
-				.map(resposta -> ResponseEntity.ok(resposta))
+		return postagemRepository.findById(id).map(resposta -> ResponseEntity.ok(resposta))
 				.orElse(ResponseEntity.notFound().build());
 	}
-	
+
 	@GetMapping("/titulo/{titulo}")
 	public ResponseEntity<List<Postagem>> getBytitulo(@PathVariable String titulo) {
 		return ResponseEntity.ok(postagemRepository.findAllByTituloContainingIgnoreCase(titulo));
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<Postagem> postPostagem(@Valid @RequestBody Postagem postagem) {
-		 if(temaRepository.existsById(postagem.getTema().getId())) {
-				return ResponseEntity.status(HttpStatus.CREATED)
-				.body(postagemRepository.save(postagem));
+		if (temaRepository.existsById(postagem.getTema().getId())) {
+			return ResponseEntity.status(HttpStatus.CREATED).body(postagemRepository.save(postagem));
 		}
-		
+
 		return ResponseEntity.notFound().build();
 	}
-	
+
 	@PutMapping
 	public ResponseEntity<Postagem> putPostagem(@Valid @RequestBody Postagem postagem) {
-		
-		if(temaRepository.existsById(postagem.getTema().getId())) {
-		return postagemRepository.findById(postagem.getId())
-				.map(resposta -> ResponseEntity.status(HttpStatus.OK)
-				.body(postagemRepository.save(postagem)))
-				.orElse(ResponseEntity.notFound().build());
+
+		if (temaRepository.existsById(postagem.getTema().getId())) {
+			return postagemRepository.findById(postagem.getId())
+					.map(resposta -> ResponseEntity.status(HttpStatus.OK).body(postagemRepository.save(postagem)))
+					.orElse(ResponseEntity.notFound().build());
 		}
 		return ResponseEntity.notFound().build();
 	}
-	
-	
+
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?>  deletePostagem (@PathVariable Long id ) {
-		return postagemRepository.findById(id)
-				.map(resposta -> {
-				 postagemRepository.deleteById(id);
-					return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-				})
-				.orElse( ResponseEntity.notFound().build());
+	public ResponseEntity<?> deletePostagem(@PathVariable Long id) {
+		return postagemRepository.findById(id).map(resposta -> {
+			postagemRepository.deleteById(id);
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		}).orElse(ResponseEntity.notFound().build());
 	}
-	
+
 }
