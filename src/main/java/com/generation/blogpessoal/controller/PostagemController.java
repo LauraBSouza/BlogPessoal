@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.generation.blogpessoal.model.Postagem;
-import com.generation.blogpessoal.model.Tema;
 import com.generation.blogpessoal.repository.PostagemRepository;
 import com.generation.blogpessoal.repository.TemaRepository;
 
@@ -64,7 +63,7 @@ public class PostagemController {
 		if (temaRepository.existsById(postagem.getTema().getId())) {
 			return postagemRepository.findById(postagem.getId())
 					.map(resposta -> ResponseEntity.status(HttpStatus.OK).body(postagemRepository.save(postagem)))
-					.orElse(ResponseEntity.notFound().build());
+					.orElse(ResponseEntity.badRequest().build());
 		}
 		return ResponseEntity.notFound().build();
 	}
