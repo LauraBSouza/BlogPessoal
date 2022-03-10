@@ -32,7 +32,7 @@ public class PostagemController {
 	@Autowired
 	private TemaRepository temaRepository;
 
-	@GetMapping
+	@GetMapping("/all")
 	public ResponseEntity<List<Postagem>> getAll() {
 		return ResponseEntity.ok(postagemRepository.findAll());
 	}
@@ -54,17 +54,20 @@ public class PostagemController {
 			return ResponseEntity.status(HttpStatus.CREATED).body(postagemRepository.save(postagem));
 		}
 
-		return ResponseEntity.notFound().build();
+		return ResponseEntity.badRequest().build();
 	}
 
 	@PutMapping
 	public ResponseEntity<Postagem> putPostagem(@Valid @RequestBody Postagem postagem) {
 
-		if (temaRepository.existsById(postagem.getTema().getId())) {
-			return postagemRepository.findById(postagem.getId())
-					.map(resposta -> ResponseEntity.status(HttpStatus.OK).body(postagemRepository.save(postagem)))
-					.orElse(ResponseEntity.badRequest().build());
+		if (postagemRepository.existsById(postagem.getId())) {
+
+			if (temaRepository.existsById(postagem.getTema().getId()))
+				return ResponseEntity.status(HttpStatus.OK).body(postagemRepository.save(postagem));
+
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
+
 		return ResponseEntity.notFound().build();
 	}
 

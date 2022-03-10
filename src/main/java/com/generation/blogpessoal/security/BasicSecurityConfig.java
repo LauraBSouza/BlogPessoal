@@ -123,7 +123,7 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
 		 * csrf().disabled() -> Esta opção de proteção é habilitada por padrão no 
 		 * Spring Security, entretanto precisamos desabilitar, caso contrário, todos 
 		 * os endpoints que respondem ao verbo POST não serão executados.
-		 * 
+		 *  
 		 */
 
 		http.authorizeRequests()
