@@ -132,12 +132,12 @@ public class UsuarioControllerTest {
 
     	Optional<Usuario> buscaUsuario = usuarioService.cadastrarUsuario(new Usuario(0L, 
    			"Bruna Santos", "bruna_santos@email.com.br", 
-   			"bruna123", "https://i.imgur.com/5M2p5Wb.jpg"));
+   			"bruna123", "https://i.imgur.com/5M2p5Wb.jpg")); 
    		
    	
    		ResponseEntity<String> resposta = testRestTemplate
    			.withBasicAuth("root", "root")
-   			.exchange("/usuarios/id/" + buscaUsuario.get().getId(), HttpMethod.GET, null, String.class);
+   			.exchange("/usuarios/" + buscaUsuario.get().getId(), HttpMethod.GET, null, String.class);
    		
 
    		assertEquals(HttpStatus.OK, resposta.getStatusCode());
