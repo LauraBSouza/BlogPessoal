@@ -32,7 +32,7 @@ public class PostagemController {
 	@Autowired
 	private TemaRepository temaRepository;
 
-	@GetMapping("/all")
+	@GetMapping
 	public ResponseEntity<List<Postagem>> getAll() {
 		return ResponseEntity.ok(postagemRepository.findAll());
 	}
