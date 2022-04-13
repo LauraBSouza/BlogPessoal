@@ -31,6 +31,10 @@ public class Postagem {
 	@Size(min = 5, message = "O atributo texto deve ter no mínimo 5 caracteres")
 	private String texto;
 	
+	private String imagem;
+	
+	private String anexo;
+	
 	@UpdateTimestamp
 	private LocalDateTime data;
 	
@@ -92,6 +96,22 @@ public class Postagem {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public String getImagem() {
+		return imagem;
+	}
+
+	public void setImagem(String imagem) {
+		this.imagem = imagem;
+	}
+
+	public String getAnexo() {
+		return anexo;
+	}
+
+	public void setAnexo(String anexo) {
+		this.anexo = anexo;
 	}
 	
 	
